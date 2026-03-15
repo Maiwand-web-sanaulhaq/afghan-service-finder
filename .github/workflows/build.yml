@@ -26,19 +26,21 @@ jobs:
             libportmidi-dev libswscale-dev \
             libavformat-dev libavcodec-dev \
             zlib1g-dev openjdk-17-jdk \
-            unzip zip
+            unzip zip autoconf libtool \
+            pkg-config cmake
 
       - name: Install Buildozer
         run: |
-          pip3 install buildozer cython virtualenv
+          pip3 install --upgrade pip
+          pip3 install buildozer==1.5.0
+          pip3 install cython==0.29.33
 
       - name: Build APK
         run: |
-          cd src
-          buildozer android debug
+          buildozer android debug 2>&1
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: AfghanServicesFinder
-          path: src/bin/*.apk
+          path: bin/*.apk
